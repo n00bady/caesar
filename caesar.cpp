@@ -81,19 +81,31 @@ int decrypt(char text[256], int key)
 
         if (ch >= 'a' && ch <= 'z')
         {
-            ch = ch - key;
-            if (ch < 'a')
+            int tmp = int(ch) - key;
+
+            if (tmp < int('a'))
             {
-                ch = ch + 'z' - 'a' + 1;
+                tmp = tmp + int('z') - int('a') + 1;
+                ch = char(tmp);
+            }
+            else
+            {
+                ch = ch -key;
             }
             text[i] = ch;
         }
         else if (ch  >= 'A' && ch <= 'Z')
         {
-            ch = ch - key;
-            if (ch < 'A')
+            int tmp = int(ch) - key;
+
+            if (tmp < int('A'))
             {
-                ch = ch + 'Z' - 'A' + 1;
+                tmp = tmp + int('Z') - int('A') + 1;
+                ch = char(tmp);
+            }
+            else
+            {
+                ch = ch - key;
             }
             text[i] = ch;
         }
@@ -120,15 +132,18 @@ int main(int argc, char* argv[])
     std::string::size_type sz;
     int x = stoi(str, &sz);
 
-    // TODO: Add decrypt and cracking functions
+    // If option -e encrypt
     if (string(argv[1]) == "-e")
     {
         encrypt(argv[2], x);
     }
+    // If option -d decrypt
     else if (string(argv[1]) == "-d")
     {
         decrypt(argv[2], x);
     }
+    // For anything else print the usage
+    // TODO: Add a cracking function...
     else
     {
         show_usage();
