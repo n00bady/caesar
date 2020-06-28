@@ -116,34 +116,67 @@ int decrypt(char text[256], int key)
     return 0;
 }
 
+// Easiest brute force way of cracking it.
+// there are only 25 possible shifts to try so why not print them all
+// and let the user decide which one is correct :)
+int easycrack(char text[256])
+{
+    int i;
+    for(i=1; i<=25; i++)
+    {
+        cout << "Iteration #" << i << endl;
+        decrypt(text, i);
+        cout << "----------------" << endl;
+    }
+    cout << "Now read them all and see which one makes sense :D" << endl;
 
+    return 0;
+}
 // Main arguments and function call are here...
+// TODO: Check to see if key is valid.
 int main(int argc, char* argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
         show_usage();
         exit(1);
     }
+// We can't have this before we know if we encrypt/decrypt/crack because some
+// of the options need less arguments.
     // Make the 4th argument int
     // This throws an error when not supplied with a number
     // need to find a way to catch it and return a better one or show_usage()
-    string str = argv[3];
-    std::string::size_type sz;
-    int x = stoi(str, &sz);
+//    string str = argv[3];
+//    std::string::size_type sz;
+//    int x = stoi(str, &sz);
 
     // If option -e encrypt
     if (string(argv[1]) == "-e")
     {
+        // Change the 3rd argument which is the key to int
+        string str = argv[3];
+        std::string::size_type sz;
+        int x = stoi(str, &sz);
+
         encrypt(argv[2], x);
     }
     // If option -d decrypt
     else if (string(argv[1]) == "-d")
     {
+        // Change the 3rd argument which is the key to int
+        string str = argv[3];
+        std::string::size_type sz;
+        int x = stoi(str, &sz);
+
         decrypt(argv[2], x);
     }
     // For anything else print the usage
-    // TODO: Add a cracking function...
+    // TODO: Add better cracking ways... maybe some way of recognizing 
+    // when it's cracked and only printing the right one.
+    else if (string(argv[1]) == "--easy-crack")
+    {
+        easycrack(argv[2]);
+    }
     else
     {
         show_usage();
