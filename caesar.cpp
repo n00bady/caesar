@@ -133,7 +133,6 @@ int easycrack(char text[256])
     return 0;
 }
 // Main arguments and function call are here...
-// TODO: Check to see if key is valid.
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -157,6 +156,13 @@ int main(int argc, char* argv[])
         string str = argv[3];
         std::string::size_type sz;
         int x = stoi(str, &sz);
+        // Check the key's value there is no point for negative, 0 or higher
+        // than 25 shifts. :-|
+        if(x <= 0 || x > 25)
+        {
+            cout << "There is no point in doing that..." << endl;
+            exit(1);
+        }
 
         encrypt(argv[2], x);
     }
@@ -167,6 +173,13 @@ int main(int argc, char* argv[])
         string str = argv[3];
         std::string::size_type sz;
         int x = stoi(str, &sz);
+        // Check the key's value there is no point for negative, 0 or higher
+        // than 25 shifts. :-|
+        if(x <= 0 || x > 25)
+        {
+            cout << "There is no point in doing that..." << endl;
+            exit(1);
+        }
 
         decrypt(argv[2], x);
     }
