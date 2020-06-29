@@ -13,12 +13,11 @@ void show_usage()
 }
 
 // Encrypt function
-int encrypt(char text[256], int key)
+int encrypt(string text, int key)
 {
     char ch;
-    int i;
 
-    for ( i = 0; i < text[i] != '\0'; i++ )
+    for (size_t i=0; i<text.size(); i++)
     {
         ch = text[i];
         // I don't really understand it but for some reason if
@@ -70,12 +69,11 @@ int encrypt(char text[256], int key)
 }
 
 // Decrypt function
-int decrypt(char text[256], int key)
+int decrypt(string text, int key)
 {
     char ch;
-    int i;
     
-    for (i = 0; i < text[i] != '\0'; i++)
+    for (size_t i=0; i<text.size(); i++)
     {
         ch = text[i];
 
@@ -119,12 +117,13 @@ int decrypt(char text[256], int key)
 // Easiest brute force way of cracking it.
 // there are only 25 possible shifts to try so why not print them all
 // and let the user decide which one is correct :)
-int easycrack(char text[256])
+int easycrack(string text)
 {
     int i;
+
     for(i=1; i<=25; i++)
     {
-        cout << "Iteration #" << i << endl;
+        cout << "Trying Key: " << i << endl;
         decrypt(text, i);
         cout << "----------------" << endl;
     }
@@ -132,6 +131,7 @@ int easycrack(char text[256])
 
     return 0;
 }
+
 // Main arguments and function call are here...
 int main(int argc, char* argv[])
 {
