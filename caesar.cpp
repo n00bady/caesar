@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 using namespace std;
 
 void show_usage()
 {
-    cout << "Usage: caesar <option> <text> <key>" <<endl;
-    cout << "Options: " <<endl;
+    cout << "Usage: caesar <option> <text> <key>" << endl;
+    cout << "Options: " << endl;
     cout << "\t -e,  Encrypts a string with a key." << endl;
     cout << "\t -d,  Decrypts a string if provided a key. " << endl;
     cout << "Key must be an int number between 1-25!" << endl;
@@ -135,7 +136,7 @@ int easycrack(string text)
 // Main arguments and function call are here...
 int main(int argc, char* argv[])
 {
-    if (argc < 2)
+    if (argc < 2 || argc > 4)
     {
         show_usage();
         exit(1);
@@ -188,7 +189,20 @@ int main(int argc, char* argv[])
     // when it's cracked and only printing the right one.
     else if (string(argv[1]) == "--easy-crack")
     {
-        easycrack(argv[2]);
+        if(isatty(fileno(stdin)))
+        {
+            easycrack(argv[2]);
+        }
+        else
+        {
+            string line;
+            string str;
+            while(getline(cin, line) && !line.empty())
+            {
+                str += line + " ";
+            }
+            easycrack(str);
+        }
     }
     else
     {
